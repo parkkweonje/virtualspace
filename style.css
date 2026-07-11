@@ -1,0 +1,235 @@
+/* =========================================================================
+   사주꿈 (SajuKkum) — 스타일
+   신비로운 밤하늘 × 금빛 테마. 반응형.
+   ========================================================================= */
+:root {
+  --bg:        #0d0b1f;
+  --bg-2:      #141031;
+  --card:      rgba(30, 24, 66, 0.72);
+  --card-solid:#1a1440;
+  --line:      rgba(180, 160, 255, 0.16);
+  --gold:      #f5c451;
+  --gold-2:    #e0a83a;
+  --purple:    #9d7bff;
+  --purple-2:  #6f4bd8;
+  --text:      #efe9ff;
+  --muted:     #a99ec9;
+  --shadow:    0 18px 50px rgba(0,0,0,0.45);
+
+  --wood:  #4ea777;
+  --fire:  #e8615a;
+  --earth: #d3a24a;
+  --metal: #cfd3dc;
+  --water: #4f8bd6;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  color: var(--text);
+  background:
+    radial-gradient(1200px 600px at 15% -10%, rgba(157,123,255,0.22), transparent 60%),
+    radial-gradient(1000px 500px at 100% 0%, rgba(245,196,81,0.12), transparent 55%),
+    linear-gradient(180deg, var(--bg) 0%, var(--bg-2) 100%);
+  background-attachment: fixed;
+  min-height: 100vh;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+.container { width: min(1080px, 92vw); margin: 0 auto; }
+a { color: inherit; text-decoration: none; }
+img { max-width: 100%; }
+
+/* ---------- 별 배경 ---------- */
+.stars { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
+.stars i {
+  position: absolute; width: 2px; height: 2px; border-radius: 50%;
+  background: #fff; opacity: 0.7; animation: twinkle 3.2s infinite ease-in-out;
+}
+@keyframes twinkle { 0%,100%{opacity:.15; transform:scale(.7)} 50%{opacity:.9; transform:scale(1.2)} }
+
+/* ---------- 헤더 ---------- */
+.site-header {
+  position: sticky; top: 0; z-index: 50;
+  backdrop-filter: blur(14px);
+  background: rgba(13, 11, 31, 0.72);
+  border-bottom: 1px solid var(--line);
+}
+.nav { display: flex; align-items: center; justify-content: space-between; height: 66px; }
+.brand { display: flex; align-items: center; gap: 10px; font-weight: 800; font-size: 1.15rem; }
+.brand .logo {
+  font-size: 1.5rem;
+  filter: drop-shadow(0 0 10px rgba(245,196,81,.6));
+}
+.brand small { display:block; font-size: .68rem; color: var(--muted); font-weight: 500; letter-spacing:.02em; }
+.nav-links { display: flex; gap: 6px; list-style: none; }
+.nav-links a {
+  padding: 8px 14px; border-radius: 999px; font-size: .92rem; color: var(--muted);
+  transition: .2s;
+}
+.nav-links a:hover, .nav-links a.active { color: var(--text); background: rgba(157,123,255,.16); }
+.nav-toggle { display:none; background:none; border:none; color:var(--text); font-size:1.5rem; cursor:pointer; }
+
+/* ---------- 히어로 ---------- */
+.hero { position: relative; z-index: 1; text-align: center; padding: 72px 0 40px; }
+.hero .moon {
+  width: 92px; height: 92px; margin: 0 auto 22px; border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #fff 0%, var(--gold) 40%, var(--gold-2) 75%, #a97e26 100%);
+  box-shadow: 0 0 60px rgba(245,196,81,.55), inset -12px -12px 30px rgba(0,0,0,.25);
+  animation: float 6s ease-in-out infinite;
+}
+@keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-12px)} }
+.hero h1 { font-size: clamp(2rem, 5vw, 3.1rem); font-weight: 900; letter-spacing:-.02em; }
+.hero h1 .grad {
+  background: linear-gradient(100deg, var(--gold), #ffe9a8 40%, var(--purple));
+  -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+}
+.hero p { color: var(--muted); margin-top: 14px; font-size: 1.08rem; }
+
+/* ---------- 탭 ---------- */
+.tabs { position: relative; z-index: 1; display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; margin: 34px 0 8px; }
+.tab {
+  border: 1px solid var(--line); background: var(--card); color: var(--muted);
+  padding: 11px 20px; border-radius: 999px; cursor: pointer; font-size: .98rem; font-weight: 600;
+  transition: .2s; backdrop-filter: blur(8px);
+}
+.tab:hover { color: var(--text); border-color: rgba(245,196,81,.4); }
+.tab.active {
+  color: #1a1440; background: linear-gradient(100deg, var(--gold), var(--gold-2));
+  border-color: transparent; box-shadow: 0 8px 24px rgba(245,196,81,.35);
+}
+
+/* ---------- 패널/카드 ---------- */
+.panel { position: relative; z-index: 1; display: none; padding: 26px 0 10px; }
+.panel.active { display: block; animation: rise .4s ease; }
+@keyframes rise { from{opacity:0; transform:translateY(12px)} to{opacity:1; transform:none} }
+
+.card {
+  background: var(--card); border: 1px solid var(--line); border-radius: 20px;
+  padding: 26px; box-shadow: var(--shadow); backdrop-filter: blur(10px);
+}
+.card + .card { margin-top: 20px; }
+.card h2 { font-size: 1.3rem; margin-bottom: 6px; }
+.card .sub { color: var(--muted); font-size: .92rem; margin-bottom: 20px; }
+
+/* ---------- 폼 ---------- */
+.form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px,1fr)); gap: 14px; }
+label { display:block; font-size:.82rem; color: var(--muted); margin-bottom: 6px; font-weight:600; }
+input, select {
+  width: 100%; padding: 12px 14px; border-radius: 12px; font-size: 1rem; font-family: inherit;
+  background: rgba(10,8,26,.6); border: 1px solid var(--line); color: var(--text);
+}
+input:focus, select:focus { outline: none; border-color: var(--gold); box-shadow: 0 0 0 3px rgba(245,196,81,.18); }
+.btn {
+  margin-top: 20px; width: 100%; padding: 15px; border: none; border-radius: 14px; cursor: pointer;
+  font-size: 1.06rem; font-weight: 800; color: #1a1440;
+  background: linear-gradient(100deg, var(--gold), var(--gold-2));
+  box-shadow: 0 10px 28px rgba(245,196,81,.35); transition: .2s;
+}
+.btn:hover { transform: translateY(-2px); box-shadow: 0 14px 34px rgba(245,196,81,.45); }
+.radio-row { display:flex; gap:10px; }
+.radio-row label {
+  flex:1; text-align:center; padding:11px; border:1px solid var(--line); border-radius:12px;
+  cursor:pointer; color:var(--muted); margin:0; transition:.2s;
+}
+.radio-row input { display:none; }
+.radio-row input:checked + span { color: var(--gold); font-weight:800; }
+.radio-row label:has(input:checked) { border-color: var(--gold); background: rgba(245,196,81,.1); }
+
+/* ---------- 사주판 ---------- */
+.saju-board { display:grid; grid-template-columns: repeat(4,1fr); gap:12px; margin-top: 6px; }
+.pillar { text-align:center; }
+.pillar .plabel { font-size:.8rem; color:var(--muted); margin-bottom:8px; }
+.gz {
+  border-radius:14px; padding:16px 6px; font-weight:800; border:1px solid var(--line);
+  display:flex; flex-direction:column; align-items:center; gap:2px;
+}
+.gz .h { font-size:1.9rem; line-height:1; }
+.gz .ko { font-size:.82rem; opacity:.85; }
+.gz.gan { margin-bottom:10px; }
+.oh-wood  { background: rgba(78,167,119,.18);  border-color: rgba(78,167,119,.5);  color:#8ff0b6; }
+.oh-fire  { background: rgba(232,97,90,.18);   border-color: rgba(232,97,90,.5);   color:#ffb0ab; }
+.oh-earth { background: rgba(211,162,74,.18);  border-color: rgba(211,162,74,.5);  color:#ffdd9c; }
+.oh-metal { background: rgba(207,211,220,.16); border-color: rgba(207,211,220,.5); color:#eef1f7; }
+.oh-water { background: rgba(79,139,214,.18);  border-color: rgba(79,139,214,.5);  color:#a7cbff; }
+
+/* ---------- 오행 막대 ---------- */
+.ohaeng-bars { display:grid; gap:10px; margin-top:6px; }
+.obar { display:grid; grid-template-columns: 64px 1fr 34px; align-items:center; gap:12px; }
+.obar .name { font-weight:700; font-size:.92rem; }
+.obar .track { height:12px; background: rgba(255,255,255,.07); border-radius:99px; overflow:hidden; }
+.obar .fill { height:100%; border-radius:99px; transition: width .8s cubic-bezier(.2,.9,.2,1); }
+.f-wood{background:var(--wood)} .f-fire{background:var(--fire)} .f-earth{background:var(--earth)}
+.f-metal{background:var(--metal)} .f-water{background:var(--water)}
+.obar .num { text-align:right; color:var(--muted); font-weight:700; }
+
+.chips { display:flex; flex-wrap:wrap; gap:8px; margin-top:4px; }
+.chip { padding:6px 12px; border-radius:99px; background:rgba(157,123,255,.14); border:1px solid var(--line); font-size:.86rem; }
+.chip b { color: var(--gold); }
+
+.interp { margin-top:18px; padding:18px; border-radius:14px; background:rgba(10,8,26,.45); border:1px solid var(--line); }
+.interp p { margin: 6px 0; }
+.interp .em { color: var(--gold); font-weight:700; }
+
+/* ---------- 운세 ---------- */
+.score-ring { display:flex; align-items:center; gap:20px; flex-wrap:wrap; }
+.ring {
+  --p:70; width:120px; height:120px; border-radius:50%; display:grid; place-items:center;
+  background: conic-gradient(var(--gold) calc(var(--p)*1%), rgba(255,255,255,.08) 0);
+  position:relative; flex-shrink:0;
+}
+.ring::before { content:""; position:absolute; inset:10px; border-radius:50%; background: var(--card-solid); }
+.ring span { position:relative; font-size:1.8rem; font-weight:900; color:var(--gold); }
+.fortune-grid { display:grid; grid-template-columns: repeat(auto-fit,minmax(200px,1fr)); gap:14px; margin-top:18px; }
+.fitem { padding:16px; border-radius:14px; background:rgba(10,8,26,.45); border:1px solid var(--line); }
+.fitem h4 { font-size:.92rem; color:var(--gold); margin-bottom:6px; }
+.fitem p { font-size:.92rem; color:var(--text); }
+.lucky { display:flex; gap:10px; flex-wrap:wrap; margin-top:16px; }
+.lucky .l { flex:1; min-width:110px; text-align:center; padding:14px; border-radius:12px; background:rgba(157,123,255,.12); border:1px solid var(--line); }
+.lucky .l small { display:block; color:var(--muted); font-size:.76rem; margin-bottom:4px; }
+.lucky .l b { font-size:1.15rem; color:var(--gold); }
+
+/* ---------- 꿈해몽 ---------- */
+.dream-list { display:grid; gap:12px; margin-top:16px; }
+.dream {
+  padding:18px; border-radius:14px; background:rgba(10,8,26,.45); border:1px solid var(--line);
+  transition:.2s;
+}
+.dream:hover { border-color: rgba(245,196,81,.4); transform: translateY(-2px); }
+.dream .top { display:flex; align-items:center; gap:10px; margin-bottom:6px; }
+.dream .top h4 { font-size:1.05rem; }
+.dream .tag { font-size:.72rem; padding:3px 9px; border-radius:99px; background:rgba(245,196,81,.16); color:var(--gold); font-weight:700; }
+.dream p { color:var(--muted); font-size:.94rem; }
+.empty { text-align:center; color:var(--muted); padding:30px; }
+
+/* ---------- 광고 ---------- */
+.ad-slot {
+  margin: 26px auto; text-align: center; min-height: 90px;
+  display: flex; align-items: center; justify-content: center;
+}
+.ad-slot small { color: rgba(169,158,201,.4); font-size:.72rem; }
+
+/* ---------- 안내/푸터 ---------- */
+.notice {
+  position:relative; z-index:1; text-align:center; color:var(--muted); font-size:.82rem;
+  margin: 20px auto; max-width: 720px;
+}
+.site-footer {
+  position:relative; z-index:1; border-top:1px solid var(--line); margin-top:40px;
+  padding: 30px 0; text-align:center; color:var(--muted); font-size:.86rem;
+}
+.site-footer a { color: var(--purple); }
+
+@media (max-width: 720px) {
+  .nav-links { display:none; }
+  .nav-toggle { display:block; }
+  .nav-links.open {
+    display:flex; position:absolute; top:66px; left:0; right:0; flex-direction:column; gap:0;
+    background: var(--card-solid); border-bottom:1px solid var(--line); padding:8px;
+  }
+  .nav-links.open a { padding:12px; border-radius:10px; }
+  .saju-board { grid-template-columns: repeat(4,1fr); gap:6px; }
+  .gz { padding:12px 2px; } .gz .h { font-size:1.4rem; }
+  .hero { padding: 48px 0 26px; }
+}
