@@ -56,8 +56,16 @@ img { max-width: 100%; }
   background: rgba(13, 11, 31, 0.72);
   border-bottom: 1px solid var(--line);
 }
-.nav { display: flex; align-items: center; justify-content: space-between; height: 66px; }
-.brand { display: flex; align-items: center; gap: 10px; font-weight: 800; font-size: 1.15rem; }
+.nav { display: flex; align-items: center; gap: 12px; height: 66px; }
+.nav-actions { display: flex; align-items: center; gap: 8px; }
+.lang-sel {
+  width: auto; padding: 8px 12px; border-radius: 999px; font-size: .9rem; font-weight: 600;
+  background: var(--card); color: var(--text); border: 1px solid var(--line); cursor: pointer;
+  backdrop-filter: blur(8px);
+}
+.lang-sel:focus { outline: none; border-color: var(--gold); box-shadow: 0 0 0 3px rgba(245,196,81,.18); }
+.lang-sel option { background: var(--card-solid); color: var(--text); }
+.brand { display: flex; align-items: center; gap: 10px; font-weight: 800; font-size: 1.15rem; margin-right: auto; }
 .brand .logo {
   font-size: 1.5rem;
   filter: drop-shadow(0 0 10px rgba(245,196,81,.6));

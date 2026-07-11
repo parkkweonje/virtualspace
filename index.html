@@ -4,10 +4,10 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>사주꿈 — AI 사주팔자 · 오늘의 운세 · 꿈해몽</title>
-  <meta name="description" content="생년월일시만 입력하면 사주팔자·오행 분석을 무료로. 매일 바뀌는 오늘의 운세와 꿈해몽까지 한 곳에서. 재미로 보는 정통 사주 운세 사이트 사주꿈." />
-  <meta name="keywords" content="사주,사주팔자,무료사주,오늘의운세,꿈해몽,만세력,오행,띠운세,궁합" />
+  <meta name="description" content="생년월일시만 입력하면 사주팔자·오행 분석을 무료로. 매일 바뀌는 오늘의 운세와 꿈해몽까지 한 곳에서. 한국어·English·日本語·中文 지원." />
+  <meta name="keywords" content="사주,사주팔자,무료사주,오늘의운세,꿈해몽,만세력,오행,띠운세,궁합,saju,fortune,dream,四柱推命,八字" />
   <meta property="og:title" content="사주꿈 — 사주팔자 · 오늘의 운세 · 꿈해몽" />
-  <meta property="og:description" content="생년월일시로 보는 무료 사주팔자와 오행 분석, 오늘의 운세, 꿈해몽." />
+  <meta property="og:description" content="생년월일시로 보는 무료 사주팔자와 오행 분석, 오늘의 운세, 꿈해몽. 다국어 지원." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://www.sajukkum.com/" />
   <link rel="canonical" href="https://www.sajukkum.com/" />
@@ -24,65 +24,66 @@
     <div class="container nav">
       <a class="brand" href="index.html">
         <span class="logo">🔮</span>
-        <span>사주꿈 <small>사주팔자 · 운세 · 꿈해몽</small></span>
+        <span>사주꿈 <small id="brandSub">사주팔자 · 운세 · 꿈해몽</small></span>
       </a>
-      <button class="nav-toggle" aria-label="메뉴 열기">☰</button>
       <ul class="nav-links" id="navLinks">
-        <li><a href="#" data-go="saju" class="active">사주팔자</a></li>
-        <li><a href="#" data-go="fortune">오늘의 운세</a></li>
-        <li><a href="#" data-go="dream">꿈해몽</a></li>
+        <li><a href="#" data-go="saju" id="navSaju" class="active">사주팔자</a></li>
+        <li><a href="#" data-go="fortune" id="navFortune">오늘의 운세</a></li>
+        <li><a href="#" data-go="dream" id="navDream">꿈해몽</a></li>
       </ul>
+      <div class="nav-actions">
+        <select id="langSel" class="lang-sel" aria-label="Language / 언어"></select>
+        <button class="nav-toggle" aria-label="메뉴 열기">☰</button>
+      </div>
     </div>
   </header>
 
   <main>
     <section class="hero container">
       <div class="moon"></div>
-      <h1>내 안의 <span class="grad">사주</span>를 풀다</h1>
-      <p>생년월일시만 입력하면 사주팔자와 오행을, 그리고 오늘의 운세·꿈해몽까지.</p>
+      <h1><span id="heroA">내 안의 </span><span class="grad" id="heroGrad">사주</span><span id="heroB">를 풀다</span></h1>
+      <p id="heroP">생년월일시만 입력하면 사주팔자와 오행을, 그리고 오늘의 운세·꿈해몽까지.</p>
     </section>
 
     <div class="container">
       <div class="tabs" id="tabs">
-        <button class="tab active" data-tab="saju">🎴 사주팔자</button>
-        <button class="tab" data-tab="fortune">🌙 오늘의 운세</button>
-        <button class="tab" data-tab="dream">💭 꿈해몽</button>
+        <button class="tab active" data-tab="saju" id="tabSajuBtn">🎴 사주팔자</button>
+        <button class="tab" data-tab="fortune" id="tabFortuneBtn">🌙 오늘의 운세</button>
+        <button class="tab" data-tab="dream" id="tabDreamBtn">💭 꿈해몽</button>
       </div>
 
       <!-- ================= 사주팔자 ================= -->
       <section class="panel active" id="panel-saju">
         <div class="card">
-          <h2>🎴 사주팔자 풀이</h2>
-          <p class="sub">양력 생년월일과 태어난 시각을 입력하세요. 천간·지지 여덟 글자와 오행의 균형을 분석해 드립니다.</p>
+          <h2 id="sajuH2">🎴 사주팔자 풀이</h2>
+          <p class="sub" id="sajuSub">양력 생년월일과 태어난 시각을 입력하세요. 천간·지지 여덟 글자와 오행의 균형을 분석해 드립니다.</p>
           <div class="form-grid">
             <div>
-              <label>이름 (선택)</label>
+              <label id="labelName">이름 (선택)</label>
               <input type="text" id="s-name" placeholder="홍길동" maxlength="10" />
             </div>
             <div>
-              <label>태어난 해 (양력)</label>
+              <label id="labelYear">태어난 해 (양력)</label>
               <input type="number" id="s-year" placeholder="1990" min="1900" max="2100" />
             </div>
             <div>
-              <label>월</label>
+              <label id="labelMonth">월</label>
               <input type="number" id="s-month" placeholder="5" min="1" max="12" />
             </div>
             <div>
-              <label>일</label>
+              <label id="labelDay">일</label>
               <input type="number" id="s-day" placeholder="15" min="1" max="31" />
             </div>
             <div>
-              <label>태어난 시각</label>
-              <select id="s-hour">
-                <option value="">시간 모름</option>
-              </select>
+              <label id="labelHour">태어난 시각</label>
+              <select id="s-hour"></select>
             </div>
           </div>
           <div style="margin-top:14px">
-            <label>성별</label>
+            <label id="labelGender">성별</label>
             <div class="radio-row">
-              <label><input type="radio" name="gender" value="남" checked><span>남성</span></label>
-              <label><input type="radio" name="gender" value="여"><span>여성</span></label>
+              <label><input type="radio" name="gender" value="male" checked><span id="maleT">남성</span></label>
+              <label><input type="radio" name="gender" value="female"><span id="femaleT">여성</span></label>
             </div>
           </div>
           <button class="btn" id="s-run">🔮 내 사주 풀이 보기</button>
@@ -93,23 +94,22 @@
           <p class="sub" id="s-meta"></p>
           <div class="saju-board" id="s-board"></div>
 
-          <h3 style="margin:26px 0 12px; font-size:1.1rem">☯ 오행(五行) 분포</h3>
+          <h3 id="ohaengH3" style="margin:26px 0 12px; font-size:1.1rem">☯ 오행(五行) 분포</h3>
           <div class="ohaeng-bars" id="s-bars"></div>
           <div class="chips" id="s-chips" style="margin-top:14px"></div>
 
           <div class="interp" id="s-interp"></div>
         </div>
-
       </section>
 
       <!-- ================= 오늘의 운세 ================= -->
       <section class="panel" id="panel-fortune">
         <div class="card">
-          <h2>🌙 오늘의 운세</h2>
+          <h2 id="fortuneH2">🌙 오늘의 운세</h2>
           <p class="sub" id="f-today"></p>
           <div class="form-grid">
             <div>
-              <label>띠를 선택하세요</label>
+              <label id="labelZodiac">띠를 선택하세요</label>
               <select id="f-animal"></select>
             </div>
           </div>
@@ -126,14 +126,14 @@
             </div>
           </div>
           <div class="fortune-grid">
-            <div class="fitem"><h4>💰 재물운</h4><p id="f-money"></p></div>
-            <div class="fitem"><h4>💗 애정운</h4><p id="f-love"></p></div>
-            <div class="fitem"><h4>💼 직장·학업운</h4><p id="f-work"></p></div>
+            <div class="fitem"><h4 id="fMoneyH">💰 재물운</h4><p id="f-money"></p></div>
+            <div class="fitem"><h4 id="fLoveH">💗 애정운</h4><p id="f-love"></p></div>
+            <div class="fitem"><h4 id="fWorkH">💼 직장·학업운</h4><p id="f-work"></p></div>
           </div>
           <div class="lucky">
-            <div class="l"><small>행운의 색</small><b id="f-color">—</b></div>
-            <div class="l"><small>행운의 숫자</small><b id="f-number">—</b></div>
-            <div class="l"><small>행운의 방향</small><b id="f-direction">—</b></div>
+            <div class="l"><small id="luckyColorT">행운의 색</small><b id="f-color">—</b></div>
+            <div class="l"><small id="luckyNumberT">행운의 숫자</small><b id="f-number">—</b></div>
+            <div class="l"><small id="luckyDirT">행운의 방향</small><b id="f-direction">—</b></div>
           </div>
         </div>
       </section>
@@ -141,34 +141,41 @@
       <!-- ================= 꿈해몽 ================= -->
       <section class="panel" id="panel-dream">
         <div class="card">
-          <h2>💭 꿈해몽 사전</h2>
-          <p class="sub">궁금한 꿈의 키워드를 검색하세요. (예: 돼지, 뱀, 이빨, 불, 물, 죽음…)</p>
+          <h2 id="dreamH2">💭 꿈해몽 사전</h2>
+          <p class="sub" id="dreamSub">궁금한 꿈의 키워드를 검색하세요.</p>
           <input type="text" id="d-search" placeholder="꿈에서 본 것을 입력하세요" />
           <div class="dream-list" id="d-list"></div>
         </div>
       </section>
 
-      <p class="notice">
-        ※ 사주꿈의 모든 풀이는 통계·전통 명리에 기반한 <b>재미로 보는 콘텐츠</b>이며,
-        의학·법률·재정적 판단의 근거가 아닙니다. 절기 경계에 태어난 경우 월주가 하루 차이날 수 있습니다.
-      </p>
+      <p class="notice" id="noticeT"></p>
     </div>
   </main>
 
   <footer class="site-footer">
     <div class="container">
-      <p>🔮 <b>사주꿈</b> — 사주팔자 · 오늘의 운세 · 꿈해몽</p>
-      <p style="margin-top:8px">© 2026 SajuKkum. 재미로 보는 운세 서비스.</p>
+      <p>🔮 <b>사주꿈</b> — <span id="footerTagT">사주팔자 · 오늘의 운세 · 꿈해몽</span></p>
+      <p style="margin-top:8px" id="footerCopyT">© 2026 SajuKkum. 재미로 보는 운세 서비스.</p>
     </div>
   </footer>
 
+  <script src="i18n.js"></script>
   <script src="saju.js"></script>
   <script>
   (function () {
-    const E = window.SajuEngine;
+    const ENGINE = window.SajuEngine;
+    const I = window.I18N;
+    let LANG = localStorage.getItem('sk_lang');
+    if (!LANG || !I.packs[LANG]) LANG = (navigator.language || 'ko').slice(0,2);
+    if (!I.packs[LANG]) LANG = 'ko';
+    let P = I.packs[LANG];
+    let lastSaju = null, lastFortune = null;
+
+    const $ = id => document.getElementById(id);
+    const setT = (id, s) => { const el = $(id); if (el) el.textContent = s; };
 
     /* --- 별 배경 --- */
-    const starBox = document.getElementById('stars');
+    const starBox = $('stars');
     for (let i = 0; i < 60; i++) {
       const s = document.createElement('i');
       s.style.left = Math.floor((i * 137.5) % 100) + '%';
@@ -178,169 +185,218 @@
       starBox.appendChild(s);
     }
 
+    /* --- 요소 참조 --- */
+    const langSel = $('langSel'), hourSel = $('s-hour'), animalSel = $('f-animal');
+    const nameInp = $('s-name'), yearInp = $('s-year'), monthInp = $('s-month'), dayInp = $('s-day');
+    const dSearch = $('d-search'), dList = $('d-list');
+    const board = $('s-board'), bars = $('s-bars'), chips = $('s-chips'), interp = $('s-interp');
+    const resultCard = $('s-result'), fResult = $('f-result');
+
+    /* --- 언어 선택 옵션 --- */
+    I.langs.forEach(l => {
+      const o = document.createElement('option');
+      o.value = l.code; o.textContent = l.label;
+      langSel.appendChild(o);
+    });
+
     /* --- 탭 --- */
     const tabs = document.querySelectorAll('.tab');
     const panels = { saju:'panel-saju', fortune:'panel-fortune', dream:'panel-dream' };
     function go(name) {
       tabs.forEach(t => t.classList.toggle('active', t.dataset.tab === name));
-      Object.entries(panels).forEach(([k, id]) =>
-        document.getElementById(id).classList.toggle('active', k === name));
-      document.querySelectorAll('[data-go]').forEach(a =>
-        a.classList.toggle('active', a.dataset.go === name));
+      Object.entries(panels).forEach(([k, id]) => $(id).classList.toggle('active', k === name));
+      document.querySelectorAll('[data-go]').forEach(a => a.classList.toggle('active', a.dataset.go === name));
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
     tabs.forEach(t => t.addEventListener('click', () => go(t.dataset.tab)));
     document.querySelectorAll('[data-go]').forEach(a =>
-      a.addEventListener('click', e => { e.preventDefault(); go(a.dataset.go); document.getElementById('navLinks').classList.remove('open'); }));
+      a.addEventListener('click', e => { e.preventDefault(); go(a.dataset.go); $('navLinks').classList.remove('open'); }));
+    document.querySelector('.nav-toggle').addEventListener('click', () => $('navLinks').classList.toggle('open'));
 
-    /* --- 모바일 메뉴 --- */
-    document.querySelector('.nav-toggle').addEventListener('click', () =>
-      document.getElementById('navLinks').classList.toggle('open'));
+    /* --- 헬퍼 --- */
+    function fmtDate(y, m, d) {
+      if (LANG === 'ko') return `${y}년 ${m}월 ${d}일`;
+      if (LANG === 'ja' || LANG === 'zh') return `${y}年${m}月${d}日`;
+      return `${y}-${String(m).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+    }
+    function hourRangeLabel(jiIdx) {
+      return `${P.ji[jiIdx]}${P.ui.hourWord} ${I.TIMES[jiIdx]}`.trim();
+    }
+    const HOUR_MIDS = [0,1,3,5,7,9,11,13,15,17,19,21];
+    function rebuildHourOptions() {
+      const val = hourSel.value;
+      hourSel.innerHTML = '';
+      const u = document.createElement('option'); u.value = ''; u.textContent = P.ui.hourUnknown; hourSel.appendChild(u);
+      HOUR_MIDS.forEach((mid, i) => {
+        const o = document.createElement('option'); o.value = mid; o.textContent = hourRangeLabel(i); hourSel.appendChild(o);
+      });
+      hourSel.value = val;
+    }
+    function rebuildZodiacOptions() {
+      const val = animalSel.value;
+      animalSel.innerHTML = '';
+      P.animals.forEach((a, i) => {
+        const o = document.createElement('option'); o.value = i; o.textContent = a + P.ui.zodiacSuffix; animalSel.appendChild(o);
+      });
+      animalSel.value = val || '0';
+    }
 
-    /* --- 시각 옵션 --- */
-    const hourSel = document.getElementById('s-hour');
-    E.HOUR_RANGES.forEach((label, i) => {
-      const mid = [0,1,3,5,7,9,11,13,15,17,19,21][i]; // 각 시의 대표 시(hour)
-      const opt = document.createElement('option');
-      opt.value = mid; opt.textContent = label;
-      hourSel.appendChild(opt);
-    });
-
-    /* --- 띠 옵션 --- */
-    const animalSel = document.getElementById('f-animal');
-    E.JI_ANIMAL.forEach((a, i) => {
-      const opt = document.createElement('option');
-      opt.value = i; opt.textContent = a + '띠';
-      animalSel.appendChild(opt);
-    });
-
-    /* ================= 사주 실행 ================= */
-    function ohClass(oh){ return 'oh-' + E.OHAENG[oh]; }
-    function fillClass(oh){ return 'f-' + E.OHAENG[oh]; }
-
-    document.getElementById('s-run').addEventListener('click', () => {
-      const name = document.getElementById('s-name').value.trim();
-      const y = parseInt(document.getElementById('s-year').value, 10);
-      const m = parseInt(document.getElementById('s-month').value, 10);
-      const d = parseInt(document.getElementById('s-day').value, 10);
-      const hv = document.getElementById('s-hour').value;
-      const hour = hv === '' ? null : parseInt(hv, 10);
-      const gender = document.querySelector('input[name=gender]:checked').value;
-
-      if (!y || !m || !d || m < 1 || m > 12 || d < 1 || d > 31 || y < 1900 || y > 2100) {
-        alert('생년월일을 정확히 입력해 주세요. (양력 기준)');
-        return;
-      }
-
-      const r = E.computeSaju(y, m, d, hour);
-      const P = r.pillars;
-      const order = [['시','hour'],['일','day'],['월','month'],['년','year']];
-
-      // 사주판
-      const board = document.getElementById('s-board');
+    /* --- 사주 렌더 --- */
+    function renderSaju(inp) {
+      const { y, m, d, hour, name, genderKey } = inp;
+      const r = ENGINE.computeSaju(y, m, d, hour);
+      const Pl = r.pillars;
+      const order = [['pillarHour','hour'],['pillarDay','day'],['pillarMonth','month'],['pillarYear','year']];
       board.innerHTML = '';
-      order.forEach(([lab, key]) => {
-        const p = P[key];
-        const col = document.createElement('div');
-        col.className = 'pillar';
+      order.forEach(([labKey, key]) => {
+        const p = Pl[key];
+        const col = document.createElement('div'); col.className = 'pillar';
+        const lab = P.ui[labKey];
         if (!p) {
-          col.innerHTML = `<div class="plabel">${lab}주</div>
-            <div class="gz gan" style="opacity:.35"><span class="h">?</span><span class="ko">모름</span></div>
+          col.innerHTML = `<div class="plabel">${lab}</div>
+            <div class="gz gan" style="opacity:.35"><span class="h">?</span><span class="ko">${P.ui.unknown}</span></div>
             <div class="gz" style="opacity:.35"><span class="h">?</span><span class="ko">-</span></div>`;
         } else {
-          const t = E.pillarText(p);
-          col.innerHTML = `<div class="plabel">${lab}주</div>
-            <div class="gz gan ${ohClass(t.ganOh)}"><span class="h">${t.ganH}</span><span class="ko">${t.ganKo} · ${E.OHAENG_LABEL[t.ganOh]}</span></div>
-            <div class="gz ${ohClass(t.jiOh)}"><span class="h">${t.jiH}</span><span class="ko">${t.jiKo} · ${E.OHAENG_LABEL[t.jiOh]}</span></div>`;
+          const gEl = ENGINE.GAN_EL[p.gan], jEl = ENGINE.JI_EL[p.ji];
+          col.innerHTML = `<div class="plabel">${lab}</div>
+            <div class="gz gan oh-${gEl}"><span class="h">${ENGINE.GAN_H[p.gan]}</span><span class="ko">${P.gan[p.gan]} · ${P.el[gEl]}</span></div>
+            <div class="gz oh-${jEl}"><span class="h">${ENGINE.JI_H[p.ji]}</span><span class="ko">${P.ji[p.ji]} · ${P.el[jEl]}</span></div>`;
         }
         board.appendChild(col);
       });
 
-      // 오행 막대
-      const bars = document.getElementById('s-bars');
-      bars.innerHTML = '';
       const total = Object.values(r.count).reduce((a,b)=>a+b,0) || 1;
-      ['목','화','토','금','수'].forEach(oh => {
-        const n = r.count[oh];
-        const row = document.createElement('div');
-        row.className = 'obar';
-        row.innerHTML = `<div class="name">${E.OHAENG_LABEL[oh]}</div>
-          <div class="track"><div class="fill ${fillClass(oh)}" style="width:0%"></div></div>
+      bars.innerHTML = '';
+      ENGINE.EL.forEach(el => {
+        const n = r.count[el];
+        const row = document.createElement('div'); row.className = 'obar';
+        row.innerHTML = `<div class="name">${P.el[el]}</div>
+          <div class="track"><div class="fill f-${el}" style="width:0%"></div></div>
           <div class="num">${n}</div>`;
         bars.appendChild(row);
         setTimeout(() => row.querySelector('.fill').style.width = Math.round(n/total*100) + '%', 60);
       });
 
-      // 일간(日干) = 나 자신
-      const dm = r.dayMaster;
-      const dmOh = E.GAN_OHAENG[dm];
-      const chips = document.getElementById('s-chips');
+      const dm = r.dayMaster, dmEl = ENGINE.GAN_EL[dm];
       const entries = Object.entries(r.count);
-      const strong = entries.filter(([,v]) => v === Math.max(...entries.map(e=>e[1]))).map(([k])=>k);
-      const lack = entries.filter(([,v]) => v === 0).map(([k])=>k);
+      const maxV = Math.max(...entries.map(e => e[1]));
+      const strong = entries.filter(([,v]) => v === maxV).map(([k]) => k);
+      const lack = entries.filter(([,v]) => v === 0).map(([k]) => k);
+      const animal = P.animals[r.animalIndex] + P.ui.zodiacSuffix;
       chips.innerHTML =
-        `<span class="chip">일간(나): <b>${E.GAN[dm]}(${E.GAN_H[dm]}) · ${E.OHAENG_LABEL[dmOh]}</b></span>
-         <span class="chip">띠: <b>${r.animal}띠</b></span>
-         <span class="chip">강한 오행: <b>${strong.map(s=>E.OHAENG_LABEL[s]).join(', ')}</b></span>
-         ${lack.length ? `<span class="chip">부족한 오행: <b>${lack.map(s=>E.OHAENG_LABEL[s]).join(', ')}</b></span>` : ''}`;
+        `<span class="chip">${P.ui.chipDayMaster}: <b>${P.gan[dm]}(${ENGINE.GAN_H[dm]}) · ${P.el[dmEl]}</b></span>
+         <span class="chip">${P.ui.chipZodiac}: <b>${animal}</b></span>
+         <span class="chip">${P.ui.chipStrong}: <b>${strong.map(s=>P.el[s]).join(', ')}</b></span>
+         ${lack.length ? `<span class="chip">${P.ui.chipLack}: <b>${lack.map(s=>P.el[s]).join(', ')}</b></span>` : ''}`;
 
-      // 해석
-      const interp = document.getElementById('s-interp');
-      let txt = `<p><span class="em">일간 ${E.GAN[dm]}(${E.GAN_H[dm]})</span> — ${E.OHAENG_DESC[dmOh]}</p>`;
-      txt += `<p><span class="em">강한 기운</span> ${strong.map(s=>E.OHAENG_LABEL[s]).join(', ')} : ${strong.map(s=>E.OHAENG_DESC[s]).join(' ')}</p>`;
-      if (lack.length) {
-        txt += `<p><span class="em">보완할 기운</span> ${lack.map(s=>E.OHAENG_LABEL[s]).join(', ')}의 기운이 사주에 없습니다. 이 오행에 해당하는 색·방향·활동을 곁에 두면 균형에 도움이 됩니다.</p>`;
-      } else {
-        txt += `<p><span class="em">균형</span> 다섯 기운이 고루 갖춰진 편입니다. 큰 치우침 없이 안정적으로 흐르는 사주입니다.</p>`;
-      }
+      let txt = `<p><span class="em">${P.ui.dayMasterLabel} ${P.gan[dm]}(${ENGINE.GAN_H[dm]})</span> — ${P.elDesc[dmEl]}</p>`;
+      txt += `<p><span class="em">${P.ui.strongLabel}</span> ${strong.map(s=>P.el[s]).join(', ')} : ${strong.map(s=>P.elDesc[s]).join(' ')}</p>`;
+      if (lack.length) txt += `<p><span class="em">${P.ui.lackLabel}</span> ${lack.map(s=>P.el[s]).join(', ')}${P.ui.lackText}</p>`;
+      else txt += `<p><span class="em">${P.ui.balanceLabel}</span> ${P.ui.balanceText}</p>`;
       interp.innerHTML = txt;
 
-      document.getElementById('s-title').textContent = (name ? name + '님의 ' : '') + '사주팔자';
-      document.getElementById('s-meta').textContent =
-        `${y}년 ${m}월 ${d}일 ${hour===null?'(시간 모름)':E.HOUR_RANGES[E.computeSaju(y,m,d,hour).pillars.hour.ji]} · ${gender}성`;
-      document.getElementById('s-result').style.display = 'block';
-      document.getElementById('s-result').scrollIntoView({ behavior:'smooth', block:'start' });
-    });
+      setT('s-title', name ? (name + P.ui.resTitleSuffix) : P.ui.resTitle);
+      const hourLabel = hour === null ? P.ui.metaTimeUnknown : hourRangeLabel(ENGINE.hourToJi(hour));
+      setT('s-meta', `${fmtDate(y,m,d)} ${hourLabel} · ${P.ui[genderKey]}`);
+      resultCard.style.display = 'block';
+    }
 
-    /* ================= 오늘의 운세 ================= */
-    document.getElementById('f-today').textContent = `오늘은 ${E.todayStr()} — 띠를 골라 오늘의 흐름을 확인하세요.`;
-    document.getElementById('f-run').addEventListener('click', () => {
-      const ai = document.getElementById('f-animal').value;
-      const animal = E.JI_ANIMAL[ai];
-      const seed = E.todayStr() + '#' + ai;
-      const score = E.seededScore(seed, 55, 98);
-      document.getElementById('f-ring').style.setProperty('--p', score);
-      document.getElementById('f-score').textContent = score;
-      document.getElementById('f-title').textContent = `${animal}띠 · 오늘의 운세`;
-      document.getElementById('f-sub').textContent = `${E.todayStr()} 기준`;
-      document.getElementById('f-total').textContent = E.seededPick(seed+'t', E.FORTUNE_TOTAL);
-      document.getElementById('f-money').textContent = E.seededPick(seed+'m', E.FORTUNE_MONEY);
-      document.getElementById('f-love').textContent  = E.seededPick(seed+'l', E.FORTUNE_LOVE);
-      document.getElementById('f-work').textContent  = E.seededPick(seed+'w', E.FORTUNE_WORK);
-      document.getElementById('f-color').textContent = E.seededPick(seed+'c', E.FORTUNE_LUCK.color);
-      document.getElementById('f-number').textContent = E.seededPick(seed+'n', E.FORTUNE_LUCK.number);
-      document.getElementById('f-direction').textContent = E.seededPick(seed+'d', E.FORTUNE_LUCK.direction);
-      document.getElementById('f-result').style.display = 'block';
-      document.getElementById('f-result').scrollIntoView({ behavior:'smooth', block:'start' });
-    });
+    /* --- 운세 렌더 --- */
+    function renderFortune(ai) {
+      const animal = P.animals[ai] + P.ui.zodiacSuffix;
+      const seed = ENGINE.todayStr() + '#' + ai;
+      const score = ENGINE.seededScore(seed, 55, 98);
+      $('f-ring').style.setProperty('--p', score);
+      setT('f-score', score);
+      setT('f-title', animal + P.ui.fortuneResTitleTail);
+      setT('f-sub', ENGINE.todayStr() + P.ui.fortuneBase);
+      setT('f-total', ENGINE.seededPick(seed+'t', P.fortune.total));
+      setT('f-money', ENGINE.seededPick(seed+'m', P.fortune.money));
+      setT('f-love',  ENGINE.seededPick(seed+'l', P.fortune.love));
+      setT('f-work',  ENGINE.seededPick(seed+'w', P.fortune.work));
+      setT('f-color', ENGINE.seededPick(seed+'c', P.colors));
+      setT('f-number',ENGINE.seededPick(seed+'n', P.numbers));
+      setT('f-direction', ENGINE.seededPick(seed+'d', P.directions));
+      fResult.style.display = 'block';
+    }
 
-    /* ================= 꿈해몽 ================= */
-    const dList = document.getElementById('d-list');
-    function renderDreams(items) {
-      if (!items.length) { dList.innerHTML = '<div class="empty">해당하는 꿈 풀이를 찾지 못했어요. 다른 키워드로 검색해 보세요.</div>'; return; }
-      dList.innerHTML = items.map(it =>
-        `<div class="dream"><div class="top"><h4>${it.t}</h4><span class="tag">${it.tag}</span></div><p>${it.m}</p></div>`
+    /* --- 꿈해몽 렌더 --- */
+    function renderDreams(q) {
+      q = (q || '').trim().toLowerCase();
+      const items = I.dreams.filter(dr => {
+        if (!q) return true;
+        const t = dr.t[LANG].toLowerCase(), m = dr.m[LANG].toLowerCase();
+        const ks = dr.k[LANG] || [];
+        return t.includes(q) || m.includes(q) || ks.some(k => k.toLowerCase().includes(q) || q.includes(k.toLowerCase()));
+      });
+      if (!items.length) { dList.innerHTML = `<div class="empty">${P.ui.dreamEmpty}</div>`; return; }
+      dList.innerHTML = items.map(dr =>
+        `<div class="dream"><div class="top"><h4>${dr.t[LANG]}</h4><span class="tag">${dr.tag[LANG]}</span></div><p>${dr.m[LANG]}</p></div>`
       ).join('');
     }
-    renderDreams(E.DREAM_DB);
-    document.getElementById('d-search').addEventListener('input', e =>
-      renderDreams(E.searchDream(e.target.value)));
 
-    /* ================= 광고 =================
-       구글 애드센스 "자동 광고" 사용.
-       헤드의 로더 스크립트(ca-pub-9797499468725306)만으로 동작하며,
-       애드센스 관리자에서 자동 광고를 켜면 페이지에 광고가 자동 배치됩니다.
-       (수동 광고 단위가 필요하면 adsbygoogle ins 태그에 실제 슬롯 번호를 넣고 push 하세요.) */
+    /* --- 언어 적용 --- */
+    function applyLang(lang) {
+      if (!I.packs[lang]) lang = 'ko';
+      LANG = lang; P = I.packs[lang];
+      localStorage.setItem('sk_lang', lang);
+      document.documentElement.lang = P.htmlLang;
+      document.title = P.ui.title;
+      langSel.value = lang;
+
+      setT('brandSub', P.ui.brandSub);
+      setT('navSaju', P.ui.navSaju); setT('navFortune', P.ui.navFortune); setT('navDream', P.ui.navDream);
+      setT('heroA', P.ui.heroA); setT('heroGrad', P.ui.heroGrad); setT('heroB', P.ui.heroB); setT('heroP', P.ui.heroP);
+      setT('tabSajuBtn', P.ui.tabSaju); setT('tabFortuneBtn', P.ui.tabFortune); setT('tabDreamBtn', P.ui.tabDream);
+      setT('sajuH2', P.ui.sajuH2); setT('sajuSub', P.ui.sajuSub);
+      setT('labelName', P.ui.labelName); setT('labelYear', P.ui.labelYear); setT('labelMonth', P.ui.labelMonth);
+      setT('labelDay', P.ui.labelDay); setT('labelHour', P.ui.labelHour); setT('labelGender', P.ui.labelGender);
+      setT('maleT', P.ui.male); setT('femaleT', P.ui.female);
+      setT('s-run', P.ui.sajuRun);
+      setT('ohaengH3', P.ui.ohaengH3);
+      setT('fortuneH2', P.ui.fortuneH2); setT('labelZodiac', P.ui.labelZodiac); setT('f-run', P.ui.fortuneRun);
+      setT('fMoneyH', P.ui.fMoney); setT('fLoveH', P.ui.fLove); setT('fWorkH', P.ui.fWork);
+      setT('luckyColorT', P.ui.luckyColor); setT('luckyNumberT', P.ui.luckyNumber); setT('luckyDirT', P.ui.luckyDir);
+      setT('dreamH2', P.ui.dreamH2); setT('dreamSub', P.ui.dreamSub);
+      setT('noticeT', P.ui.notice);
+      setT('footerTagT', P.ui.footerTagline); setT('footerCopyT', P.ui.footerCopy);
+
+      nameInp.placeholder = P.ui.phName;
+      dSearch.placeholder = P.ui.dreamPh;
+
+      rebuildHourOptions();
+      rebuildZodiacOptions();
+      $('f-today').innerHTML = `${P.ui.fortuneTodayA}<b>${ENGINE.todayStr()}</b>${P.ui.fortuneTodayB}`;
+
+      renderDreams(dSearch.value);
+      if (lastSaju) renderSaju(lastSaju);
+      if (lastFortune !== null) renderFortune(lastFortune);
+    }
+
+    /* --- 이벤트 --- */
+    langSel.addEventListener('change', () => applyLang(langSel.value));
+
+    $('s-run').addEventListener('click', () => {
+      const name = nameInp.value.trim();
+      const y = parseInt(yearInp.value, 10), m = parseInt(monthInp.value, 10), d = parseInt(dayInp.value, 10);
+      const hv = hourSel.value; const hour = hv === '' ? null : parseInt(hv, 10);
+      const genderKey = document.querySelector('input[name=gender]:checked').value;
+      if (!y || !m || !d || m < 1 || m > 12 || d < 1 || d > 31 || y < 1900 || y > 2100) { alert(P.ui.alertDate); return; }
+      lastSaju = { y, m, d, hour, name, genderKey };
+      renderSaju(lastSaju);
+      resultCard.scrollIntoView({ behavior:'smooth', block:'start' });
+    });
+
+    $('f-run').addEventListener('click', () => {
+      lastFortune = parseInt(animalSel.value, 10);
+      renderFortune(lastFortune);
+      fResult.scrollIntoView({ behavior:'smooth', block:'start' });
+    });
+
+    dSearch.addEventListener('input', e => renderDreams(e.target.value));
+
+    /* --- 초기화 --- */
+    applyLang(LANG);
   })();
   </script>
 </body>
