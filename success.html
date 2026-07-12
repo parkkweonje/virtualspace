@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>결제 확인 중… | 사주꿈</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+  <style>
+    body{margin:0;min-height:100vh;display:grid;place-items:center;background:#0d0b1f;color:#efe9ff;
+      font-family:'Pretendard',system-ui,sans-serif;text-align:center;padding:24px}
+    .box{max-width:420px}
+    .spin{width:52px;height:52px;margin:0 auto 20px;border-radius:50%;
+      border:4px solid rgba(245,196,81,.25);border-top-color:#f5c451;animation:s 1s linear infinite}
+    @keyframes s{to{transform:rotate(360deg)}}
+    h1{font-size:1.3rem;margin:0 0 8px}
+    p{color:#a99ec9;margin:6px 0}
+    a{display:inline-block;margin-top:18px;padding:12px 22px;border-radius:12px;font-weight:800;
+      color:#1a1440;background:linear-gradient(100deg,#f5c451,#e0a83a);text-decoration:none}
+    .ok .spin{display:none}
+    .err h1{color:#e8615a}
+  </style>
+</head>
+<body>
+  <div class="box" id="box">
+    <div class="spin" id="spin"></div>
+    <h1 id="title">결제 확인 중…</h1>
+    <p id="msg">잠시만 기다려 주세요.</p>
+    <a id="back" href="/" style="display:none">홈으로 돌아가기</a>
+  </div>
+
+  <script>
+  (function () {
+    var L = { confirming:'결제 확인 중…', wait:'잠시만 기다려 주세요.',
+      done:'✨ 결제가 완료되었습니다!', doneSub:'상세 풀이를 확인하러 이동합니다…',
+      fail:'결제 확인에 실패했습니다', back:'홈으로 돌아가기' };
+    try {
+      var lang = localStorage.getItem('sk_lang');
+      var T = {
+        en:{confirming:'Confirming payment…',wait:'Please wait a moment.',done:'✨ Payment complete!',doneSub:'Taking you to your detailed reading…',fail:'Payment confirmation failed',back:'Back to home'},
+        ja:{confirming:'決済確認中…',wait:'少々お待ちください。',done:'✨ 決済が完了しました！',doneSub:'詳細鑑定へ移動します…',fail:'決済の確認に失敗しました',back:'ホームへ戻る'},
+        zh:{confirming:'正在确认支付…',wait:'请稍候。',done:'✨ 支付完成！',doneSub:'正在前往详细解读…',fail:'支付确认失败',back:'返回首页'}
+      };
+      if (T[lang]) L = T[lang];
+    } catch (e) {}
+
+    var q = new URLSearchParams(location.search);
+    var kind = q.get('kind') || 'saju';
+    var paymentKey = q.get('paymentKey'), orderId = q.get('orderId'), amount = q.get('amount');
+    document.getElementById('title').textContent = L.confirming;
+    document.getElementById('msg').textContent = L.wait;
+    document.getElementById('back').textContent = L.back;
+
+    function fail(m) {
+      document.getElementById('box').className = 'err';
+      document.getElementById('spin').style.display = 'none';
+      document.getElementById('title').textContent = L.fail;
+      document.getElementById('msg').textContent = m || '';
+      document.getElementById('back').style.display = 'inline-block';
+    }
+
+    if (!paymentKey || !orderId || !amount) { fail(''); return; }
+
+    fetch('/api/confirm', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ paymentKey: paymentKey, orderId: orderId, amount: Number(amount) })
+    })
+    .then(function (r) { return r.json(); })
+    .then(function (data) {
+      if (data && data.ok) {
+        localStorage.setItem('sk_paid_' + kind, '1');
+        // AI 전문가 풀이 결제검증에 쓸 paymentKey/orderId 저장
+        try {
+          localStorage.setItem('sk_pk_' + kind, data.paymentKey || paymentKey || '');
+          localStorage.setItem('sk_oid_' + kind, data.orderId || orderId || '');
+        } catch (e) {}
+        document.getElementById('spin').style.display = 'none';
+        document.getElementById('title').textContent = L.done;
+        document.getElementById('msg').textContent = L.doneSub;
+        setTimeout(function () { location.href = '/?unlocked=' + kind; }, 1200);
+      } else {
+        fail((data && data.message) ? data.message : '');
+      }
+    })
+    .catch(function () { fail(''); });
+  })();
+  </script>
+</body>
+</html>

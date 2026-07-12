@@ -13,9 +13,11 @@
   <link rel="canonical" href="https://www.sajukkum.com/" />
   <link rel="preconnect" href="https://cdn.jsdelivr.net" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
-  <link rel="stylesheet" href="style.css?v=20260711" />
+  <link rel="stylesheet" href="style.css?v=20260711c" />
   <!-- Google AdSense -->
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9797499468725306" crossorigin="anonymous"></script>
+  <!-- Toss Payments -->
+  <script src="https://js.tosspayments.com/v2/standard"></script>
 </head>
 <body>
   <div class="stars" id="stars" aria-hidden="true"></div>
@@ -100,6 +102,8 @@
 
           <div class="interp" id="s-interp"></div>
         </div>
+
+        <div class="prem-card" id="s-premium" style="display:none"></div>
       </section>
 
       <!-- ================= 오늘의 운세 ================= -->
@@ -146,6 +150,25 @@
           <input type="text" id="d-search" placeholder="꿈에서 본 것을 입력하세요" />
           <div class="dream-list" id="d-list"></div>
         </div>
+
+        <div class="card" id="dream-tell">
+          <h2 id="dtH2">🌙 내 꿈 풀이 + 로또번호</h2>
+          <p class="sub" id="dtSub">꿈 내용을 자유롭게 적으면 풀이와 행운의 로또번호를 뽑아드립니다.</p>
+          <textarea id="dt-input" rows="3" placeholder="예: 커다란 돼지가 집으로 들어와 품에 안겼어요"></textarea>
+          <button class="btn" id="dt-run">🔮 꿈 풀이 + 로또번호 뽑기</button>
+          <div id="dt-result" style="display:none">
+            <div class="dt-interp" id="dt-interp"></div>
+            <div class="lotto-box">
+              <div class="lotto-head">
+                <span id="dtLottoTitle">🍀 꿈이 뽑은 행운의 번호</span>
+                <button class="lotto-redraw" id="dt-redraw">다시 뽑기</button>
+              </div>
+              <div class="lotto-balls" id="dt-balls"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="prem-card" id="d-premium" style="display:none"></div>
       </section>
 
       <p class="notice" id="noticeT"></p>
@@ -159,15 +182,20 @@
     </div>
   </footer>
 
-  <script src="i18n.js?v=20260711"></script>
-  <script src="saju.js?v=20260711"></script>
+  <script src="i18n.js?v=20260711c"></script>
+  <script src="saju.js?v=20260711c"></script>
+  <script src="pay.js?v=20260711c"></script>
+  <script src="dream.js?v=20260711c"></script>
   <script>
   (function () {
     const ENGINE = window.SajuEngine;
     const I = window.I18N;
-    let LANG = localStorage.getItem('sk_lang');
-    if (!LANG || !I.packs[LANG]) LANG = (navigator.language || 'ko').slice(0,2);
-    if (!I.packs[LANG]) LANG = 'ko';
+    // SEL = 사용자가 고른 언어(50+개, AI 풀이에 사용)
+    // LANG = 정적 UI 문구용 언어(완역 팩 ko/en/ja/zh 중 하나로 폴백)
+    let SEL = localStorage.getItem('sk_lang');
+    if (!SEL || !I.LANGS.some(l => l.code === SEL)) SEL = (navigator.language || 'ko').slice(0,2);
+    if (!I.LANGS.some(l => l.code === SEL)) SEL = 'ko';
+    let LANG = I.uiCode(SEL);
     let P = I.packs[LANG];
     let lastSaju = null, lastFortune = null;
 
@@ -299,6 +327,7 @@
       const hourLabel = hour === null ? P.ui.metaTimeUnknown : hourRangeLabel(ENGINE.hourToJi(hour));
       setT('s-meta', `${fmtDate(y,m,d)} ${hourLabel} · ${P.ui[genderKey]}`);
       resultCard.style.display = 'block';
+      if (window.SajuPay) window.SajuPay.onSajuComputed(inp);
     }
 
     /* --- 운세 렌더 --- */
@@ -329,20 +358,23 @@
         const ks = dr.k[LANG] || [];
         return t.includes(q) || m.includes(q) || ks.some(k => k.toLowerCase().includes(q) || q.includes(k.toLowerCase()));
       });
-      if (!items.length) { dList.innerHTML = `<div class="empty">${P.ui.dreamEmpty}</div>`; return; }
+      if (!items.length) { dList.innerHTML = `<div class="empty">${P.ui.dreamEmpty}</div>`; if (window.SajuPay) window.SajuPay.onDreamContext(null); return; }
       dList.innerHTML = items.map(dr =>
         `<div class="dream"><div class="top"><h4>${dr.t[LANG]}</h4><span class="tag">${dr.tag[LANG]}</span></div><p>${dr.m[LANG]}</p></div>`
       ).join('');
+      if (window.SajuPay) window.SajuPay.onDreamContext(I.dreams.indexOf(items[0]));
     }
 
     /* --- 언어 적용 --- */
-    function applyLang(lang) {
-      if (!I.packs[lang]) lang = 'ko';
-      LANG = lang; P = I.packs[lang];
-      localStorage.setItem('sk_lang', lang);
+    function applyLang(sel) {
+      if (!I.LANGS.some(l => l.code === sel)) sel = 'ko';
+      SEL = sel;                     // 선택한 언어(AI 풀이용)
+      LANG = I.uiCode(sel);          // 정적 UI 문구용(폴백)
+      P = I.packs[LANG];
+      localStorage.setItem('sk_lang', sel);
       document.documentElement.lang = P.htmlLang;
       document.title = P.ui.title;
-      langSel.value = lang;
+      langSel.value = sel;
 
       setT('brandSub', P.ui.brandSub);
       setT('navSaju', P.ui.navSaju); setT('navFortune', P.ui.navFortune); setT('navDream', P.ui.navDream);
@@ -396,7 +428,22 @@
     dSearch.addEventListener('input', e => renderDreams(e.target.value));
 
     /* --- 초기화 --- */
-    applyLang(LANG);
+    applyLang(SEL);
+
+    /* --- 결제 완료 후 돌아온 경우: 해당 탭 열고 상세 풀이 표시 --- */
+    (function () {
+      const unlocked = new URLSearchParams(location.search).get('unlocked');
+      if (!unlocked) return;
+      if (unlocked === 'saju') {
+        const raw = localStorage.getItem('sk_last_saju');
+        if (raw) { try { lastSaju = JSON.parse(raw); renderSaju(lastSaju); } catch (e) {} }
+        go('saju');
+      } else if (unlocked === 'dream') {
+        go('dream');
+        if (window.SajuPay) window.SajuPay.onDreamContext(null);
+      }
+      if (window.SajuPay) window.SajuPay.refresh();
+    })();
   })();
   </script>
 </body>

@@ -229,6 +229,50 @@ input:focus, select:focus { outline: none; border-color: var(--gold); box-shadow
 }
 .site-footer a { color: var(--purple); }
 
+/* ---------- 프리미엄(결제) 카드 ---------- */
+.prem-card {
+  margin-top: 20px; border-radius: 20px; padding: 26px;
+  border: 1px solid rgba(245,196,81,.35);
+  background: linear-gradient(160deg, rgba(245,196,81,.10), rgba(157,123,255,.10));
+  box-shadow: var(--shadow); text-align: center;
+}
+.prem-card.locked { position: relative; overflow: hidden; }
+.prem-card .prem-lock { font-size: 2rem; margin-bottom: 6px; filter: drop-shadow(0 0 12px rgba(245,196,81,.5)); }
+.prem-card h3 { font-size: 1.2rem; margin: 4px 0 8px; }
+.prem-card .prem-sub { color: var(--muted); font-size: .95rem; margin-bottom: 18px; line-height: 1.6; }
+.prem-btn { max-width: 380px; margin-left: auto; margin-right: auto; }
+.prem-card.unlocked { text-align: left; border-color: rgba(78,167,119,.4);
+  background: linear-gradient(160deg, rgba(78,167,119,.10), rgba(245,196,81,.08)); }
+.prem-card.unlocked h3 { color: var(--gold); text-align: center; margin-bottom: 16px; }
+.prem-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 10px; margin-bottom: 16px; }
+.prem-item { padding: 14px 8px; border-radius: 12px; background: rgba(10,8,26,.45);
+  border: 1px solid var(--line); text-align: center; }
+.prem-item b { display: block; font-size: .78rem; color: var(--muted); margin-bottom: 6px; font-weight: 700; }
+.prem-item span { font-size: 1rem; color: var(--gold); font-weight: 800; }
+.prem-p { margin: 12px 0; padding: 14px 16px; border-radius: 12px;
+  background: rgba(10,8,26,.4); border: 1px solid var(--line); line-height: 1.7; }
+.prem-p b { color: var(--gold); }
+.prem-langnote { color: var(--muted); font-size: .8rem; margin: -8px 0 14px; }
+@media (max-width: 720px) { .prem-grid { grid-template-columns: 1fr; } }
+
+/* --- AI 전문가 풀이 --- */
+.ai-reading { margin-top: 18px; }
+.ai-title { font-size: 1.02rem; color: var(--gold); margin: 6px 0 12px;
+  display: flex; align-items: center; gap: 6px; }
+.ai-body { line-height: 1.85; font-size: 1rem; }
+.ai-body p { margin: 12px 0; }
+.ai-body .ai-h { font-size: 1.02rem; color: var(--gold); margin: 20px 0 8px; font-weight: 800; }
+.ai-body b { color: #ffe0a0; }
+.ai-note { color: var(--muted); text-align: center; margin: 14px 0; }
+.ai-note.ai-err { color: #e8918a; }
+.ai-loading { display: flex; align-items: center; justify-content: center; gap: 12px;
+  color: var(--muted); padding: 26px 12px; text-align: center; line-height: 1.5; }
+.ai-spin { width: 22px; height: 22px; flex: 0 0 auto; border-radius: 50%;
+  border: 3px solid rgba(245,196,81,.25); border-top-color: var(--gold);
+  animation: aispin 1s linear infinite; }
+@keyframes aispin { to { transform: rotate(360deg); } }
+[dir="rtl"] .ai-body { text-align: right; }
+
 @media (max-width: 720px) {
   .nav-links { display:none; }
   .nav-toggle { display:block; }
@@ -241,3 +285,44 @@ input:focus, select:focus { outline: none; border-color: var(--gold); box-shadow
   .gz { padding:12px 2px; } .gz .h { font-size:1.4rem; }
   .hero { padding: 48px 0 26px; }
 }
+
+/* ---------- 내 꿈 풀이 + 로또 ---------- */
+#dt-input {
+  width: 100%; padding: 14px; border-radius: 12px; font-size: 1rem; font-family: inherit;
+  background: rgba(10,8,26,.6); border: 1px solid var(--line); color: var(--text); resize: vertical;
+  line-height: 1.6;
+}
+#dt-input:focus { outline: none; border-color: var(--gold); box-shadow: 0 0 0 3px rgba(245,196,81,.18); }
+.dt-interp { margin-top: 18px; }
+.dt-lead { color: var(--muted); margin-bottom: 12px; font-weight: 600; }
+.dt-sym { padding: 14px 16px; border-radius: 12px; margin-bottom: 10px;
+  background: rgba(10,8,26,.45); border: 1px solid var(--line); line-height: 1.7; }
+.dt-sym b { color: var(--gold); }
+.dt-tag { font-size: .72rem; padding: 2px 8px; border-radius: 99px;
+  background: rgba(245,196,81,.16); color: var(--gold); font-weight: 700; }
+.dt-synth { margin-top: 12px; padding: 14px 16px; border-radius: 12px;
+  background: rgba(157,123,255,.12); border: 1px solid var(--line); line-height: 1.7; }
+.dt-synth b { color: var(--gold); }
+
+.lotto-box { margin-top: 20px; padding: 20px; border-radius: 16px;
+  background: linear-gradient(160deg, rgba(78,167,119,.10), rgba(245,196,81,.08));
+  border: 1px solid rgba(78,167,119,.3); }
+.lotto-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; flex-wrap: wrap; gap: 8px; }
+.lotto-head span { font-weight: 800; font-size: 1.02rem; }
+.lotto-redraw { padding: 8px 16px; border-radius: 999px; cursor: pointer; font-weight: 700; font-size: .88rem;
+  color: var(--text); background: rgba(255,255,255,.08); border: 1px solid var(--line); transition: .2s; }
+.lotto-redraw:hover { border-color: var(--gold); color: var(--gold); }
+.lotto-balls { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; }
+.lotto-ball {
+  width: 52px; height: 52px; border-radius: 50%; display: grid; place-items: center;
+  font-weight: 900; font-size: 1.15rem; color: #1a1440;
+  box-shadow: 0 4px 12px rgba(0,0,0,.35), inset -3px -4px 8px rgba(0,0,0,.18);
+  animation: pop .4s cubic-bezier(.2,.9,.3,1.4) both;
+}
+.lotto-balls .lotto-ball:nth-child(2){animation-delay:.06s}
+.lotto-balls .lotto-ball:nth-child(3){animation-delay:.12s}
+.lotto-balls .lotto-ball:nth-child(4){animation-delay:.18s}
+.lotto-balls .lotto-ball:nth-child(5){animation-delay:.24s}
+.lotto-balls .lotto-ball:nth-child(6){animation-delay:.30s}
+@keyframes pop { from{opacity:0; transform:scale(.3) translateY(10px)} to{opacity:1; transform:none} }
+@media (max-width: 720px) { .lotto-ball { width: 44px; height: 44px; font-size: 1rem; } }

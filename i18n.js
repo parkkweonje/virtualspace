@@ -513,10 +513,84 @@ window.I18N = (function () {
          zh:'祖先面容明亮主庇佑与吉兆，若递予之物则有福。若气息晦暗，则是提醒你留意健康与心境。'} }
   ];
 
-  return { langs: [
-      { code:'ko', label:'한국어' },
-      { code:'en', label:'English' },
-      { code:'ja', label:'日本語' },
-      { code:'zh', label:'中文' }
-    ], packs, dreams, TIMES };
+  /* --- 언어 선택 목록(50+개) ---
+     label = 각 언어의 자기 표기(엔도님), name = AI 풀이용 영어 이름.
+     UI 정적 문구는 packs(ko/en/ja/zh)만 완역 — 나머지는 영어 UI로 폴백하되
+     "AI 전문가 풀이"는 선택한 언어로 원어민처럼 생성됩니다. */
+  const LANGS = [
+    { code:'ko', label:'한국어', name:'Korean' },
+    { code:'en', label:'English', name:'English' },
+    { code:'ja', label:'日本語', name:'Japanese' },
+    { code:'zh', label:'中文(简体)', name:'Simplified Chinese' },
+    { code:'zh-TW', label:'中文(繁體)', name:'Traditional Chinese' },
+    { code:'es', label:'Español', name:'Spanish' },
+    { code:'fr', label:'Français', name:'French' },
+    { code:'de', label:'Deutsch', name:'German' },
+    { code:'it', label:'Italiano', name:'Italian' },
+    { code:'pt', label:'Português', name:'Portuguese' },
+    { code:'ru', label:'Русский', name:'Russian' },
+    { code:'ar', label:'العربية', name:'Arabic' },
+    { code:'hi', label:'हिन्दी', name:'Hindi' },
+    { code:'bn', label:'বাংলা', name:'Bengali' },
+    { code:'id', label:'Bahasa Indonesia', name:'Indonesian' },
+    { code:'ms', label:'Bahasa Melayu', name:'Malay' },
+    { code:'th', label:'ไทย', name:'Thai' },
+    { code:'vi', label:'Tiếng Việt', name:'Vietnamese' },
+    { code:'tr', label:'Türkçe', name:'Turkish' },
+    { code:'nl', label:'Nederlands', name:'Dutch' },
+    { code:'pl', label:'Polski', name:'Polish' },
+    { code:'uk', label:'Українська', name:'Ukrainian' },
+    { code:'ro', label:'Română', name:'Romanian' },
+    { code:'el', label:'Ελληνικά', name:'Greek' },
+    { code:'cs', label:'Čeština', name:'Czech' },
+    { code:'sv', label:'Svenska', name:'Swedish' },
+    { code:'hu', label:'Magyar', name:'Hungarian' },
+    { code:'fi', label:'Suomi', name:'Finnish' },
+    { code:'da', label:'Dansk', name:'Danish' },
+    { code:'no', label:'Norsk', name:'Norwegian' },
+    { code:'he', label:'עברית', name:'Hebrew' },
+    { code:'fa', label:'فارسی', name:'Persian' },
+    { code:'ur', label:'اردو', name:'Urdu' },
+    { code:'ta', label:'தமிழ்', name:'Tamil' },
+    { code:'te', label:'తెలుగు', name:'Telugu' },
+    { code:'mr', label:'मराठी', name:'Marathi' },
+    { code:'gu', label:'ગુજરાતી', name:'Gujarati' },
+    { code:'kn', label:'ಕನ್ನಡ', name:'Kannada' },
+    { code:'ml', label:'മലയാളം', name:'Malayalam' },
+    { code:'pa', label:'ਪੰਜਾਬੀ', name:'Punjabi' },
+    { code:'fil', label:'Filipino', name:'Filipino' },
+    { code:'sw', label:'Kiswahili', name:'Swahili' },
+    { code:'am', label:'አማርኛ', name:'Amharic' },
+    { code:'my', label:'မြန်မာ', name:'Burmese' },
+    { code:'km', label:'ខ្មែរ', name:'Khmer' },
+    { code:'lo', label:'ລາວ', name:'Lao' },
+    { code:'si', label:'සිංහල', name:'Sinhala' },
+    { code:'ne', label:'नेपाली', name:'Nepali' },
+    { code:'mn', label:'Монгол', name:'Mongolian' },
+    { code:'kk', label:'Қазақша', name:'Kazakh' },
+    { code:'uz', label:'Oʻzbekcha', name:'Uzbek' },
+    { code:'az', label:'Azərbaycanca', name:'Azerbaijani' },
+    { code:'ka', label:'ქართული', name:'Georgian' },
+    { code:'hy', label:'Հայերեն', name:'Armenian' },
+    { code:'sr', label:'Српски', name:'Serbian' },
+    { code:'hr', label:'Hrvatski', name:'Croatian' },
+    { code:'bg', label:'Български', name:'Bulgarian' },
+    { code:'sk', label:'Slovenčina', name:'Slovak' },
+    { code:'lt', label:'Lietuvių', name:'Lithuanian' },
+    { code:'et', label:'Eesti', name:'Estonian' },
+    { code:'is', label:'Íslenska', name:'Icelandic' },
+    { code:'sq', label:'Shqip', name:'Albanian' },
+    { code:'af', label:'Afrikaans', name:'Afrikaans' },
+    { code:'ca', label:'Català', name:'Catalan' }
+  ];
+  const RTL = ['ar','he','fa','ur'];
+  const uiCode = c => (packs[c] ? c : 'en');            // 정적 UI 문구용 코드(폴백 en)
+  const langName = c => { const f = LANGS.find(l => l.code === c); return f ? f.name : 'English'; };
+  const isRTL = c => RTL.indexOf(c) >= 0;
+
+  return {
+    langs: LANGS,          // 50+ 언어 (선택 목록)
+    LANGS, uiCode, langName, isRTL,
+    packs, dreams, TIMES
+  };
 })();
