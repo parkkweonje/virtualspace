@@ -13,7 +13,7 @@
   <link rel="canonical" href="https://www.sajukkum.com/" />
   <link rel="preconnect" href="https://cdn.jsdelivr.net" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
-  <link rel="stylesheet" href="style.css?v=20260711c" />
+  <link rel="stylesheet" href="style.css?v=20260712" />
   <!-- Google AdSense -->
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9797499468725306" crossorigin="anonymous"></script>
   <!-- Toss Payments -->
@@ -79,6 +79,14 @@
             <div>
               <label id="labelHour">태어난 시각</label>
               <select id="s-hour"></select>
+            </div>
+          </div>
+          <div style="margin-top:14px">
+            <label id="labelCalendar">양력 / 음력</label>
+            <div class="radio-row">
+              <label><input type="radio" name="cal" value="solar" checked><span id="solarT">양력</span></label>
+              <label><input type="radio" name="cal" value="lunar"><span id="lunarT">음력</span></label>
+              <label id="leapWrap" style="display:none"><input type="checkbox" id="s-leap"><span id="leapT">윤달</span></label>
             </div>
           </div>
           <div style="margin-top:14px">
@@ -182,10 +190,10 @@
     </div>
   </footer>
 
-  <script src="i18n.js?v=20260711c"></script>
-  <script src="saju.js?v=20260711c"></script>
-  <script src="pay.js?v=20260711c"></script>
-  <script src="dream.js?v=20260711c"></script>
+  <script src="i18n.js?v=20260712"></script>
+  <script src="saju.js?v=20260712"></script>
+  <script src="pay.js?v=20260712"></script>
+  <script src="dream.js?v=20260712"></script>
   <script>
   (function () {
     const ENGINE = window.SajuEngine;
@@ -271,7 +279,7 @@
 
     /* --- 사주 렌더 --- */
     function renderSaju(inp) {
-      const { y, m, d, hour, name, genderKey } = inp;
+      const { y, m, d, hour, name, genderKey, cal, leap, iy, im, id } = inp;
       const r = ENGINE.computeSaju(y, m, d, hour);
       const Pl = r.pillars;
       const order = [['pillarHour','hour'],['pillarDay','day'],['pillarMonth','month'],['pillarYear','year']];
@@ -325,7 +333,10 @@
 
       setT('s-title', name ? (name + P.ui.resTitleSuffix) : P.ui.resTitle);
       const hourLabel = hour === null ? P.ui.metaTimeUnknown : hourRangeLabel(ENGINE.hourToJi(hour));
-      setT('s-meta', `${fmtDate(y,m,d)} ${hourLabel} · ${P.ui[genderKey]}`);
+      const dateLabel = (cal === 'lunar')
+        ? `${P.ui.calLunar} ${fmtDate(iy, im, id)}${leap ? ' ' + P.ui.leapMonth : ''} (${P.ui.calSolar} ${fmtDate(y, m, d)})`
+        : fmtDate(y, m, d);
+      setT('s-meta', `${dateLabel} ${hourLabel} · ${P.ui[genderKey]}`);
       resultCard.style.display = 'block';
       if (window.SajuPay) window.SajuPay.onSajuComputed(inp);
     }
@@ -384,6 +395,8 @@
       setT('labelName', P.ui.labelName); setT('labelYear', P.ui.labelYear); setT('labelMonth', P.ui.labelMonth);
       setT('labelDay', P.ui.labelDay); setT('labelHour', P.ui.labelHour); setT('labelGender', P.ui.labelGender);
       setT('maleT', P.ui.male); setT('femaleT', P.ui.female);
+      setT('labelCalendar', P.ui.labelCalendar);
+      setT('solarT', P.ui.calSolar); setT('lunarT', P.ui.calLunar); setT('leapT', P.ui.leapMonth);
       setT('s-run', P.ui.sajuRun);
       setT('ohaengH3', P.ui.ohaengH3);
       setT('fortuneH2', P.ui.fortuneH2); setT('labelZodiac', P.ui.labelZodiac); setT('f-run', P.ui.fortuneRun);
@@ -408,13 +421,31 @@
     /* --- 이벤트 --- */
     langSel.addEventListener('change', () => applyLang(langSel.value));
 
+    /* 양력/음력 토글 — 음력일 때만 윤달 체크박스 노출 */
+    const leapWrap = $('leapWrap'), leapChk = $('s-leap');
+    document.querySelectorAll('input[name=cal]').forEach(r =>
+      r.addEventListener('change', () => {
+        const lunar = document.querySelector('input[name=cal]:checked').value === 'lunar';
+        leapWrap.style.display = lunar ? 'inline-flex' : 'none';
+        if (!lunar) leapChk.checked = false;
+      }));
+
     $('s-run').addEventListener('click', () => {
       const name = nameInp.value.trim();
-      const y = parseInt(yearInp.value, 10), m = parseInt(monthInp.value, 10), d = parseInt(dayInp.value, 10);
+      let y = parseInt(yearInp.value, 10), m = parseInt(monthInp.value, 10), d = parseInt(dayInp.value, 10);
       const hv = hourSel.value; const hour = hv === '' ? null : parseInt(hv, 10);
       const genderKey = document.querySelector('input[name=gender]:checked').value;
+      const cal = document.querySelector('input[name=cal]:checked').value;
+      const leap = leapChk.checked;
       if (!y || !m || !d || m < 1 || m > 12 || d < 1 || d > 31 || y < 1900 || y > 2100) { alert(P.ui.alertDate); return; }
-      lastSaju = { y, m, d, hour, name, genderKey };
+
+      let iy = y, im = m, id = d;   // 입력값(표시용)
+      if (cal === 'lunar') {
+        const s = ENGINE.lunarToSolar(y, m, d, leap);
+        if (!s) { alert(P.ui.alertDate); return; }
+        y = s.y; m = s.m; d = s.d;   // 계산은 양력으로
+      }
+      lastSaju = { y, m, d, hour, name, genderKey, cal, leap, iy, im, id };
       renderSaju(lastSaju);
       resultCard.scrollIntoView({ behavior:'smooth', block:'start' });
     });
